@@ -1,0 +1,75 @@
+name: VisionKirana CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  backend-test:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.12"
+        
+    - name: Install dependencies
+      run: |
+        cd backend
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest httpx
+        
+    - name: Run Backend Tests
+      run: |
+        cd backend
+        # Note: Replace with `pytest` once tests are written
+        echo "Running backend syntax check..."
+        python -m compileall app/
+        
+  frontend-build:
+    name: Frontend Build & Lint
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js 20
+      uses: actions/setup-node@v3
+      with:
+        node-version: "20"
+        
+    - name: Install dependencies
+      run: |
+        cd frontend
+        npm ci
+        
+    - name: Run Linter
+      run: |
+        cd frontend
+        npm run lint
+        
+    - name: Build Frontend
+      run: |
+        cd frontend
+        npm run build
+
+  docker-dry-run:
+    name: Docker Build Validation
+    runs-on: ubuntu-latest
+    needs: [backend-test, frontend-build]
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Build Backend Image
+      run: docker build -t visionkirana-backend:test ./backend
+      
+    - name: Build Frontend Image
+      run: docker build -t visionkirana-frontend:test ./frontend
