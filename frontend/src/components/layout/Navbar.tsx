@@ -16,7 +16,7 @@ export function Navbar() {
           <span className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
             VisionKirana
           </span>
-        </div>
+        </Link>
         
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
           <a href="#how-it-works" className="transition-colors hover:text-primary text-muted-foreground">How it Works</a>

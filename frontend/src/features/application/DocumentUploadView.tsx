@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { FileUpload } from "@/components/ui/FileUpload"
-import { uploadFile, FileCategory, SpecificType } from "@/services/uploadService"
+import { uploadFile, type FileCategory, type SpecificType } from "@/services/uploadService"
 import { ArrowLeft, CheckCircle2 } from "lucide-react"
 
 export function DocumentUploadView() {
