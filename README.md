@@ -1,60 +1,162 @@
-# VisionKirana
+<div align="center">
 
-![VisionKirana Banner](https://via.placeholder.com/1200x300.png?text=VisionKirana+-+AI-Powered+Micro-Lending+for+Kirana+Stores)
+# 🏪 VisionKirana
+### *AI-Powered Micro-Lending Intelligence for Unbanked Kirana Stores*
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/your-org/vision-kirana/ci.yml?branch=main)](https://github.com/your-org/vision-kirana/actions)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3120/)
-[![Vite / React](https://img.shields.io/badge/Vite-React%2019-purple.svg)](https://vitejs.dev/)
-
-VisionKirana is an enterprise-grade fintech platform designed to democratize access to micro-lending for Kirana store owners across India. By utilizing cutting-edge AI and Machine Learning, VisionKirana bypasses traditional credit scores, assessing loan eligibility purely through Computer Vision, OCR, Voice Intelligence, and Location Proxies.
-
-## 🚀 Features
-
-- **PWA & Offline-First**: Installable frontend that gracefully handles spotty network connections. Queue form submissions completely offline.
-- **Computer Vision Pipeline**: Evaluates uploaded store images to determine Shelf Density and Brand Diversity, instantly proxying the health of physical inventory.
-- **OCR Validation Engine**: Extracts textual data from physical invoices, intelligently mapping Supplier names and Amount consistencies.
-- **Voice Intelligence**: NLP-powered extraction of Business Summaries, Loan Purposes, and Sentiment Analysis directly from merchant voice recordings.
-- **Location Intelligence**: Mocked geographic data engine to calculate Competition Density, Footfall Proxies, and Market Area favorability.
-- **Automated Risk Engine**: Consolidates all AI models into a single 0-100 Business Health Score, classifying loans from "Low Risk" to "Very High Risk".
-
-## 🛠 Tech Stack
-
-- **Frontend**: React 19, TypeScript, Vite, TailwindCSS, Recharts, Vite-PWA (Vercel)
-- **Backend API**: FastAPI (Python 3.12), SQLAlchemy, PostgreSQL (Render Web Service)
-- **ML Service**: FastAPI, EasyOCR, OpenCV, PyMuPDF, Scikit-Image (Render Web Service)
-- **Database**: Neon PostgreSQL Free Tier
-- **Storage**: Cloudinary Free Plan
-- **Authentication**: Google Identity Services + JWT + RBAC
-- **DevOps**: Docker, GitHub Actions CI/CD
-
-## 📖 Quick Start
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/your-org/vision-kirana.git
-cd vision-kirana
-
-# 2. Boot up local environment using Docker Compose (legacy local flow)
-docker-compose up --build
-```
-
-**For Production Deployment**, see the [Deployment Guide](./docs/DEPLOYMENT.md).
-
-- **Frontend App**: `https://your-vercel-domain.vercel.app`
-- **Backend API**: `https://your-backend.onrender.com/docs`
-- **ML Service**: `https://your-ml-service.onrender.com/docs`
-
-## 🔒 Security & Roles
-
-VisionKirana ships with robust JWT authentication and Role-Based Access Control (RBAC).
-- `admin`: Full platform overview, risk distribution access.
-- `loan_officer`: Access to application queues, risk reports, and approval matrices.
-- `shop_owner`: Access to personal shop profiles, document uploading, and health trends.
-
-## 📚 Documentation
-- [Production Deployment Guide](./docs/DEPLOYMENT.md)
-- [Testing Strategy](./TESTING.md)
+<p align="center">
+  <img src="https://img.shields.io/badge/Frontend-React%2019%20%2B%20TypeScript-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" />
+  <img src="https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/Database-PostgreSQL%20(Neon)-336791?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Storage-Cloudinary-3448C5?style=for-the-badge&logo=cloudinary&logoColor=white" alt="Cloudinary" />
+  <img src="https://img.shields.io/badge/ML-OpenCV%20%7C%20EasyOCR-FF4B4B?style=for-the-badge&logo=python&logoColor=white" alt="ML Stack" />
+  <img src="https://img.shields.io/badge/Deployment-Docker%20%7C%20Render-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
+</p>
 
 ---
-*Built to empower the unbanked.*
+
+<img src="./docs/diagrams/system-architecture.png" alt="VisionKirana System Architecture" width="800" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
+
+</div>
+
+## 📖 Overview
+
+**VisionKirana** is an enterprise-grade fintech platform designed to democratize micro-lending for millions of Kirana (mom-and-pop) store owners across India. Traditional banking models rely heavily on structured credit scores (CIBIL), locking out cash-heavy businesses with thin financial histories. 
+
+VisionKirana bypasses legacy constraints by utilizing **Computer Vision, OCR, and Voice Intelligence** to dynamically assess loan eligibility based on physical inventory health, invoice consistency, and geographic data.
+
+## ⚠️ The Problem
+
+- **Thin Credit Files:** Over 80% of Kirana stores lack formal credit histories, making them invisible to traditional lenders.
+- **Manual Verification:** Loan officers physically inspect shops, creating a massive scalability bottleneck.
+- **Fraud Risks:** Forged documents and exaggerated sales figures are difficult to catch without extensive auditing.
+
+## 💡 The Solution
+
+VisionKirana digitizes the underwriting process using AI:
+1. **Visual Health Proxy:** Machine learning models evaluate shelf density and brand diversity from uploaded photos.
+2. **Automated Auditing:** OCR extracts and cross-verifies supplier invoices.
+3. **Continuous Monitoring:** Real-time dashboards provide loan officers with an aggregated **0-100 Business Health Score**.
+
+---
+
+<div align="center">
+  <img src="./docs/diagrams/ml-pipeline.png" alt="AI/ML Intelligence Pipeline" width="800" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
+  <br />
+  <em>The automated intelligence pipeline generating dynamic credit scores.</em>
+</div>
+
+---
+
+## ✨ Core Features
+
+- 📱 **Offline-First PWA:** Built to handle spotty network connectivity with robust caching and offline queue submission.
+- 🧠 **Computer Vision Pipeline:** Instantly proxies inventory health using OpenCV and Scikit-Image.
+- 📄 **OCR Validation Engine:** Extracts and intelligently maps supplier invoice data using PyMuPDF and EasyOCR.
+- 🎙️ **Voice Intelligence:** NLP-powered business summarization directly from merchant voice recordings.
+- 🔐 **Robust Security:** JWT-based stateless authentication with strict Role-Based Access Control (Admin, Loan Officer, Shop Owner).
+- ☁️ **Cloud Native:** Direct-to-Cloudinary image uploading to reduce backend memory exhaustion.
+
+## 🛠 Tech Stack & Architecture
+
+### **Frontend**
+- **Framework:** React 19 + TypeScript + Vite
+- **Styling:** TailwindCSS
+- **State & Routing:** Context API + React Router
+- **PWA:** Vite-PWA plugin for offline capabilities
+
+### **Backend & APIs**
+- **Framework:** FastAPI (Python 3.12)
+- **Database:** PostgreSQL (Neon Free Tier) with SQLAlchemy ORM
+- **Authentication:** Google OAuth2.0 + JWT + Bcrypt
+- **Architecture:** Controller-Service-Repository pattern with synchronous database sessions
+
+### **AI/ML Service**
+- **Processing Engine:** FastAPI dedicated microservice
+- **Libraries:** OpenCV, EasyOCR, scikit-image
+- **Workflow:** Background task execution for heavy ML workloads to prevent HTTP timeouts
+
+---
+
+## 📂 Folder Structure
+
+```text
+📦 VisionKirana
+ ┣ 📂 backend          # Core API (FastAPI, Auth, SQLAlchemy Models)
+ ┃ ┣ 📂 app
+ ┃ ┃ ┣ 📂 api        # Route Controllers
+ ┃ ┃ ┣ 📂 core       # JWT Security & Configs
+ ┃ ┃ ┣ 📂 models     # PostgreSQL Tables
+ ┃ ┃ ┗ 📂 schemas    # Pydantic validation
+ ┣ 📂 frontend         # React + Vite PWA Application
+ ┃ ┣ 📂 src
+ ┃ ┃ ┣ 📂 components # Reusable UI
+ ┃ ┃ ┗ 📂 features   # Feature-based architecture
+ ┣ 📂 ml-service       # Dedicated Python Microservice for CV/OCR
+ ┣ 📂 docs             # Architecture Diagrams & Deployment guides
+ ┗ 📜 docker-compose.yml
+```
+
+---
+
+## 🚀 Setup & Execution
+
+### 1. Prerequisites
+- Docker & Docker Compose
+- Node.js (v18+)
+- Python (v3.12+)
+
+### 2. Environment Variables
+
+Create a `.env` file in the project root:
+
+```env
+# Backend Database
+POSTGRES_USER=vision_user
+POSTGRES_PASSWORD=vision_secret_pass
+POSTGRES_DB=visionkirana
+DATABASE_URL=postgresql://vision_user:vision_secret_pass@db:5432/visionkirana
+
+# Security
+SECRET_KEY=your_secure_jwt_secret_key
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+GOOGLE_CLIENT_ID=your_google_oauth_client_id
+ADMIN_EMAIL=admin@visionkirana.com
+
+# Integrations
+CLOUDINARY_URL=cloudinary://API_KEY:API_SECRET@CLOUD_NAME
+ML_API_BASE_URL=http://ml-service:8001/api/v1
+```
+
+### 3. Running Locally (Docker)
+
+The fastest way to spin up the entire ecosystem (DB, Backend, Frontend):
+
+```bash
+docker-compose up --build
+```
+- **Frontend App:** `http://localhost:80`
+- **Backend API Docs:** `http://localhost:8000/docs`
+- **ML Service Docs:** `http://localhost:8001/docs`
+
+---
+
+## ☁️ Deployment Setup
+
+- **Frontend:** Deployed globally via **Vercel** with automatic branch previews.
+- **Backend API:** Hosted on **Render** (Web Service) using Gunicorn/Uvicorn workers.
+- **ML Service:** Hosted independently on **Render** to allow decoupled scaling of CPU-intensive workloads.
+- **Database:** Serverless **Neon PostgreSQL**.
+- **Media Storage:** **Cloudinary** for highly available, CDN-backed image serving.
+
+---
+
+## 🔮 Future Scope
+
+1. **Async Database Engine:** Migrate from synchronous SQLAlchemy `Session` to `AsyncSession` to unblock FastAPI's event loop under heavy load.
+2. **Message Broker Integration:** Implement RabbitMQ/Redis for the ML Pipeline to replace HTTP-based background tasks, ensuring durability during high-volume document uploads.
+3. **Advanced Revocation Strategies:** Introduce Redis-backed JWT blocklists for secure, stateful refresh token rotation.
+4. **Automated CI/CD:** Expand GitHub Actions to include comprehensive `pytest` suites and automated database schema migrations via Alembic.
+
+<div align="center">
+  <p><em>Built to empower the unbanked.</em></p>
+</div>
