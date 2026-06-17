@@ -73,7 +73,7 @@ export function ShopRegistrationForm() {
         return
       }
       
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"}/api/v1/shops/register`", {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"}/api/v1/shops/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

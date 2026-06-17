@@ -31,7 +31,7 @@ export const uploadFile = async (
   formData.append("file_category", fileCategory)
   formData.append("specific_type", specificType)
 
-  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"}/api/v1/upload/`", {
+  const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"}/api/v1/upload/`, {
     method: "POST",
     headers: {
       "Authorization": `Bearer ${token}`
