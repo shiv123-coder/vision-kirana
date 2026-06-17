@@ -1,4 +1,5 @@
-import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
+import type { CredentialResponse } from "@react-oauth/google";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +14,7 @@ export function GoogleLoginButton() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || "http://localhost:8000"}/api/v1/auth/google-login`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"}/api/v1/auth/google-login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
