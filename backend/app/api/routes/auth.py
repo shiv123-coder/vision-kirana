@@ -4,6 +4,9 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm
 from jose import jwt, JWTError
+from pydantic import BaseModel
+from google.oauth2 import id_token
+from google.auth.transport import requests as google_requests
 
 from app.db.session import SessionLocal
 from app.api.deps import get_db, get_current_user
@@ -104,3 +107,54 @@ def read_user_me(
     Get current user.
     """
     return current_user
+
+class GoogleLoginRequest(BaseModel):
+    token: str
+
+@router.post("/google-login", response_model=Token)
+def google_login(
+    data: GoogleLoginRequest,
+    db: Session = Depends(get_db)
+) -> Any:
+    """
+    Authenticate user using Google ID token.
+    """
+    try:
+        idinfo = id_token.verify_oauth2_token(
+            data.token, google_requests.Request(), settings.GOOGLE_CLIENT_ID
+        )
+        email = idinfo.get("email")
+        if not email:
+            raise HTTPException(status_code=400, detail="Invalid Google token: No email found")
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid Google token")
+        
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        # Determine role based on email
+        assigned_role = RoleEnum.ADMIN if email == settings.ADMIN_EMAIL else RoleEnum.SHOP_OWNER
+        
+        # Auto-register user
+        user = User(
+            email=email,
+            hashed_password=security.get_password_hash("auto-generated-password-for-oauth"),
+            full_name=idinfo.get("name", "Google User"),
+            role=assigned_role,
+            is_active=True
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+        
+    elif not user.is_active:
+        raise HTTPException(status_code=400, detail="Inactive user")
+
+    access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    return {
+        "access_token": security.create_access_token(
+            user.id, expires_delta=access_token_expires
+        ),
+        "refresh_token": security.create_refresh_token(user.id),
+        "token_type": "bearer",
+    }
+

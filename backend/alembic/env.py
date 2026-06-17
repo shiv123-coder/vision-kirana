@@ -21,7 +21,11 @@ if config.config_file_name is not None:
 target_metadata = Base.metadata
 
 def get_url():
-    return settings.SQLALCHEMY_DATABASE_URI
+    url = settings.SQLALCHEMY_DATABASE_URI
+    if url and "neon.tech" in url and "sslmode=require" not in url:
+        join_char = "&" if "?" in url else "?"
+        url += f"{join_char}sslmode=require"
+    return url
 
 def run_migrations_offline() -> None:
     url = get_url()

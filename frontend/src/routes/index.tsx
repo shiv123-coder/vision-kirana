@@ -6,6 +6,7 @@ import { DashboardPage } from "@/pages/DashboardPage";
 import { DocumentUploadView } from "@/features/application/DocumentUploadView";
 import { ApplicationReportView } from "@/features/application/ApplicationReportView";
 import { Navbar } from "@/components/layout/Navbar";
+import SystemStatusPage from "@/pages/SystemStatusPage";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,15 @@ const router = createBrowserRouter([
   {
     path: "/applications/:applicationId/report",
     element: <ApplicationReportView />,
+  },
+  {
+    path: "/system-status",
+    element: (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <SystemStatusPage />
+      </div>
+    ),
   }
 ]);
 

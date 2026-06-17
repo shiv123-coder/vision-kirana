@@ -17,7 +17,7 @@ export function ApplicationReportView() {
         const token = localStorage.getItem("access_token")
         if (!token) throw new Error("Authentication required")
 
-        const res = await fetch(`/api/v1/report/${applicationId}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"}/api/v1/report/${applicationId}`, {
           headers: { "Authorization": `Bearer ${token}` }
         })
         

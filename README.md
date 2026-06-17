@@ -20,10 +20,13 @@ VisionKirana is an enterprise-grade fintech platform designed to democratize acc
 
 ## 🛠 Tech Stack
 
-- **Frontend**: React 19, TypeScript, Vite, TailwindCSS, Recharts, Vite-PWA
-- **Backend**: FastAPI (Python 3.12), SQLAlchemy, PostgreSQL
-- **AI/ML**: EasyOCR, OpenCV, PyMuPDF, Scikit-Image
-- **DevOps**: Docker, Docker Compose, GitHub Actions
+- **Frontend**: React 19, TypeScript, Vite, TailwindCSS, Recharts, Vite-PWA (Vercel)
+- **Backend API**: FastAPI (Python 3.12), SQLAlchemy, PostgreSQL (Render Web Service)
+- **ML Service**: FastAPI, EasyOCR, OpenCV, PyMuPDF, Scikit-Image (Render Web Service)
+- **Database**: Neon PostgreSQL Free Tier
+- **Storage**: Cloudinary Free Plan
+- **Authentication**: Google Identity Services + JWT + RBAC
+- **DevOps**: Docker, GitHub Actions CI/CD
 
 ## 📖 Quick Start
 
@@ -32,12 +35,15 @@ VisionKirana is an enterprise-grade fintech platform designed to democratize acc
 git clone https://github.com/your-org/vision-kirana.git
 cd vision-kirana
 
-# 2. Boot up the entire stack using Docker Compose
+# 2. Boot up local environment using Docker Compose (legacy local flow)
 docker-compose up --build
 ```
-- **Frontend App**: `http://localhost:5173`
-- **Backend API**: `http://localhost:8000`
-- **Interactive Swagger Docs**: `http://localhost:8000/docs`
+
+**For Production Deployment**, see the [Deployment Guide](./docs/DEPLOYMENT.md).
+
+- **Frontend App**: `https://your-vercel-domain.vercel.app`
+- **Backend API**: `https://your-backend.onrender.com/docs`
+- **ML Service**: `https://your-ml-service.onrender.com/docs`
 
 ## 🔒 Security & Roles
 
@@ -47,7 +53,7 @@ VisionKirana ships with robust JWT authentication and Role-Based Access Control 
 - `shop_owner`: Access to personal shop profiles, document uploading, and health trends.
 
 ## 📚 Documentation
-- [Deployment Guide](./DEPLOYMENT.md)
+- [Production Deployment Guide](./docs/DEPLOYMENT.md)
 - [Testing Strategy](./TESTING.md)
 
 ---

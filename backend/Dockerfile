@@ -1,12 +1,10 @@
 FROM python:3.12-slim
 
-# Install system dependencies required for OpenCV and EasyOCR
+# The core backend API does not require heavy ML dependencies
+# We just need standard Python dependencies
 RUN apt-get update && apt-get install -y \
-    libgl1 \
-    libglx-mesa0 \
-    libglib2.0-0 \
-    tesseract-ocr \
-    zbar-tools \
+    libpq-dev \
+    gcc \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
