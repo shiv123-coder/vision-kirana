@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi import APIRouter, File, HTTPException, UploadFile
 from typing import Any
 import traceback
 from app.services.vision_analyzer import VisionAnalyzer
