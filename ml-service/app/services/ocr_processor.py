@@ -5,6 +5,8 @@ import numpy as np
 import re
 import logging
 from datetime import datetime
+from typing import Dict, Any, List
+from fastapi import UploadFile
 
 logger = logging.getLogger(__name__)
 
