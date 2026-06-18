@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+import httpx
 from app.api.deps import get_db, get_current_active_user
 from app.models.user import User, RoleEnum
 from app.models.application import Application
-from app.ml.location_engine import LocationIntelligenceEngine
-from app.ml.risk_engine import RiskEngine
+from app.core.config import settings
 
 router = APIRouter()
 
@@ -42,12 +42,15 @@ def generate_application_report(
     invoice_activity_score = max([ocr.invoice_activity_score for ocr in ocr_results if ocr.invoice_activity_score] + [0.0])
 
     # 2. Location Intelligence
-    loc_engine = LocationIntelligenceEngine()
-    # Mocking coordinates for demonstration
-    loc_scores = loc_engine.generate_full_report(12.9716, 77.5946)
+    loc_scores = {"market_area_score": 0.0, "competition_density_score": 0.0, "footfall_proxy_score": 0.0}
+    try:
+        res = httpx.get(f"{settings.ML_API_BASE_URL}/analyze/location", params={"lat": 12.9716, "lng": 77.5946}, timeout=5.0)
+        if res.status_code == 200:
+            loc_scores = res.json()
+    except Exception as e:
+        print(f"Error calling ML service for location: {e}")
     
     # 3. Risk Assessment
-    risk_engine = RiskEngine()
     raw_data = {
         "shelf_density_score": shelf_density_score,
         "product_diversity_score": product_diversity_score,
@@ -59,7 +62,13 @@ def generate_application_report(
         "required_documents_count": 5
     }
     
-    risk_report = risk_engine.generate_risk_report(raw_data)
+    risk_report = {"business_health_score": 0.0, "risk_category": "Very High Risk"}
+    try:
+        res = httpx.post(f"{settings.ML_API_BASE_URL}/extract/risk-features", json=raw_data, timeout=5.0)
+        if res.status_code == 200:
+            risk_report = res.json()
+    except Exception as e:
+        print(f"Error calling ML service for risk: {e}")
     
     # 4. Generate AI Insights (Factors)
     positive_factors = []

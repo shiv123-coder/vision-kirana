@@ -84,3 +84,13 @@ class VoiceAnalyzer:
             "future_plans": future_plans,
             "sentiment_score": sentiment
         }
+
+class VoiceProcessor:
+    def __init__(self):
+        self.recognizer = MockVoiceRecognizer()
+        self.analyzer = VoiceAnalyzer()
+
+    def process_audio(self, audio_bytes: bytes):
+        transcript = self.recognizer.transcribe(audio_bytes)
+        analysis = self.analyzer.analyze(transcript)
+        return transcript, analysis.get("sentiment_score", "Neutral")

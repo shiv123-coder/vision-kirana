@@ -9,15 +9,7 @@ const queryClient = new QueryClient()
 
 describe('App Component', () => {
   it('renders without crashing', () => {
-    render(
-      <GoogleOAuthProvider clientId="test-client-id">
-        <QueryClientProvider client={queryClient}>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </QueryClientProvider>
-      </GoogleOAuthProvider>
-    )
+    render(<App />)
     
     // We just want to check if the app mounted. 
     // Since we don't know the exact text, we can just assert it renders some HTML element.

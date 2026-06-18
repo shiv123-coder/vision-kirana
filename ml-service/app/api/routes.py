@@ -4,6 +4,7 @@ import traceback
 from app.services.vision_analyzer import VisionAnalyzer
 from app.services.ocr_processor import OCRProcessor
 from app.services.voice_processor import VoiceProcessor
+from app.services.location_engine import LocationIntelligenceEngine
 from app.services.risk_engine import RiskEngine
 
 router = APIRouter()
@@ -12,6 +13,7 @@ vision_analyzer = VisionAnalyzer()
 ocr_processor = OCRProcessor()
 voice_processor = VoiceProcessor()
 risk_engine = RiskEngine()
+loc_engine = LocationIntelligenceEngine()
 
 @router.get("/health")
 def api_health():
@@ -63,8 +65,14 @@ async def analyze_voice(file: UploadFile = File(...)) -> Any:
 @router.post("/extract/risk-features")
 async def extract_risk_features(data: dict) -> Any:
     try:
-        # data would contain structured input expected by risk_engine
-        score = risk_engine.calculate_risk_score(data)
-        return {"risk_score": score}
+        report = risk_engine.generate_risk_report(data)
+        return report
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/analyze/location")
+async def analyze_location(lat: float, lng: float) -> Any:
+    try:
+        return loc_engine.generate_full_report(lat, lng)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
