@@ -40,5 +40,8 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
         
     - name: Test
+      env:
+        SECRET_KEY: test_secret_key
+        DATABASE_URL: sqlite:///./test.db
       run: |
-        echo "Tests not implemented yet. Add pytest here."
+        pytest tests/
