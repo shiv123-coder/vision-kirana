@@ -14,6 +14,10 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Pre-download the easyocr models so they are baked into the Docker image
+# This prevents startup timeouts and massive log spam during deployment
+RUN python -c "import easyocr; easyocr.Reader(['en'], gpu=False)"
+
 COPY . .
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
