@@ -100,6 +100,9 @@ VisionKirana digitizes the underwriting process using AI:
 
 ## 🚀 Setup & Execution
 
+> [!WARNING]
+> **Database Inactivity:** Since this project uses the Neon Free Tier for PostgreSQL, the database automatically pauses after 5 minutes of inactivity. **Before checking or running the app**, please visit the [Neon Console](https://console.neon.tech/) to resume the database if it is paused.
+
 ### 1. Prerequisites
 - Docker & Docker Compose
 - Node.js (v18+)
@@ -146,7 +149,7 @@ docker-compose up --build
 - **Backend API:** Hosted on **Render** (Web Service) using Gunicorn/Uvicorn workers.
 - **ML Service:** Hosted independently on **Render** to allow decoupled scaling of CPU-intensive workloads.
 - **Database:** Serverless **Neon PostgreSQL**.
-- **Media Storage:** **Cloudinary** for highly available, CDN-backed image serving.
+- **Media Storage:** **Cloudinary** for highly available, CDN-backed image serving. [Cloudinary Console](https://console.cloudinary.com/)
 
 ---
 
