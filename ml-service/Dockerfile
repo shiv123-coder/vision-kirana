@@ -16,7 +16,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Pre-download the easyocr models so they are baked into the Docker image
 # This prevents startup timeouts and massive log spam during deployment
-RUN python -c "import easyocr; easyocr.Reader(['en'], gpu=False)"
+RUN python -c "import easyocr; easyocr.Reader(['en'], gpu=False)" > /dev/null
 
 COPY . .
 
