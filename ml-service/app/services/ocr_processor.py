@@ -1,4 +1,5 @@
-import easyocr
+import pytesseract
+from pytesseract import Output
 import fitz  # PyMuPDF
 import cv2
 import numpy as np
@@ -12,9 +13,8 @@ logger = logging.getLogger(__name__)
 
 class OCRProcessor:
     def __init__(self):
-        # Initialize EasyOCR reader (defaults to en, can be expanded)
-        # Using gpu=False by default for broader compatibility, set to True if CUDA is available
-        self.reader = easyocr.Reader(['en'], gpu=False)
+        # Tesseract is stateless, no heavy initialization needed
+        pass
         
         self.date_pattern = re.compile(r'\b(\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|\d{4}[/-]\d{1,2}[/-]\d{1,2})\b')
         # Matches numbers like 1,000.00, 1000.00, $500, Rs. 500
@@ -99,9 +99,17 @@ class OCRProcessor:
                 if img is None:
                     raise ValueError("Failed to decode image bytes")
 
-            # Run EasyOCR
-            # detail=1 gives bounding boxes, text, and confidence
-            results = self.reader.readtext(img, detail=1)
+            # Run Tesseract OCR
+            data = pytesseract.image_to_data(img, output_type=Output.DICT)
+            results = []
+            for i in range(len(data['text'])):
+                text = data['text'][i]
+                if text.strip():
+                    x, y, w, h = data['left'][i], data['top'][i], data['width'][i], data['height'][i]
+                    bbox = [[x, y], [x+w, y], [x+w, y+h], [x, y+h]]
+                    conf_val = str(data['conf'][i])
+                    prob = float(conf_val) / 100.0 if conf_val != '-1' else 0.0
+                    results.append((bbox, text, prob))
             
             full_text = " ".join([r[1] for r in results])
             

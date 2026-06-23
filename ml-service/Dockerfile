@@ -12,14 +12,7 @@ RUN apt-get update && apt-get install -y \
 
 COPY requirements.txt .
 
-# Install PyTorch CPU-only first to save space and memory
-RUN pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu
-
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Pre-download the easyocr models so they are baked into the Docker image
-# This prevents startup timeouts and massive log spam during deployment
-RUN python -c "import easyocr; easyocr.Reader(['en'], gpu=False)" > /dev/null
 
 COPY . .
 
