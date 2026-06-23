@@ -145,7 +145,7 @@ docker-compose up --build
 
 ## ☁️ Deployment Setup
 
-- **Frontend:** Deployed globally via **Vercel** with automatic branch previews.
+- **Frontend:** Deployed globally via **Vercel** at [https://vision-kirana.vercel.app](https://vision-kirana.vercel.app) with automatic branch previews.
 - **Backend API:** Hosted on **Render** (Web Service) using Gunicorn/Uvicorn workers.
 - **ML Service:** Hosted independently on **Render** to allow decoupled scaling of CPU-intensive workloads.
 - **Database:** Serverless **Neon PostgreSQL**.
