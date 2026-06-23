@@ -143,13 +143,15 @@ docker-compose up --build
 
 ---
 
-## ☁️ Deployment Setup
+## ☁️ Deployment Setup (Live Environments)
 
-- **Frontend:** Deployed globally via **Vercel** at [https://vision-kirana.vercel.app](https://vision-kirana.vercel.app) with automatic branch previews.
-- **Backend API:** Hosted on **Render** (Web Service) using Gunicorn/Uvicorn workers.
-- **ML Service:** Hosted independently on **Render** to allow decoupled scaling of CPU-intensive workloads.
-- **Database:** Serverless **Neon PostgreSQL**.
-- **Media Storage:** **Cloudinary** for highly available, CDN-backed image serving. [Cloudinary Console](https://console.cloudinary.com/)
+- **Frontend App:** [https://vision-kirana.vercel.app](https://vision-kirana.vercel.app) (Deployed via Vercel)
+- **Backend API (Swagger Docs):** [https://visionkirana-api.onrender.com/docs](https://visionkirana-api.onrender.com/docs) (Deployed via Render)
+- **ML Service (Swagger Docs):** [https://visionkirana-ml-service.onrender.com/docs](https://visionkirana-ml-service.onrender.com/docs) (Deployed via Render)
+
+### Infrastructure Providers
+- **Database:** Serverless **Neon PostgreSQL**
+- **Media Storage:** **Cloudinary** for highly available image serving
 
 ---
 
