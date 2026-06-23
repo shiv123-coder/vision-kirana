@@ -87,7 +87,7 @@ export function ShopDashboard() {
           <h1 className="text-3xl font-bold tracking-tight text-foreground">My Business</h1>
           <p className="text-muted-foreground mt-2">Manage your shop profile and view AI insights.</p>
         </div>
-        <Button onClick={() => navigate("/register-shop")} variant="premium">
+        <Button onClick={() => navigate("/register")} variant="premium">
           <PlusCircle className="mr-2 h-4 w-4" />
           Add New Shop
         </Button>

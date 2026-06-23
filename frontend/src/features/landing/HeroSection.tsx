@@ -1,5 +1,6 @@
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
+import { Link } from "react-router-dom"
 
 export function HeroSection() {
   return (
@@ -40,8 +41,12 @@ export function HeroSection() {
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button variant="premium" size="lg">Start Underwriting</Button>
-            <Button variant="outline" size="lg">View Demo</Button>
+            <Link to="/login">
+              <Button variant="premium" size="lg">Start Underwriting</Button>
+            </Link>
+            <a href={import.meta.env.VITE_DEMO_VIDEO_URL || "https://www.youtube.com/watch?v=dQw4w9WgXcQ"} target="_blank" rel="noreferrer">
+              <Button variant="outline" size="lg">View Demo</Button>
+            </a>
           </div>
         </motion.div>
 
