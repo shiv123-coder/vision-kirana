@@ -12,6 +12,9 @@ RUN apt-get update && apt-get install -y \
 
 COPY requirements.txt .
 
+# Install PyTorch CPU-only first to save space and memory
+RUN pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu
+
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Pre-download the easyocr models so they are baked into the Docker image
@@ -20,4 +23,11 @@ RUN python -c "import easyocr; easyocr.Reader(['en'], gpu=False)" > /dev/null
 
 COPY . .
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Set environment variables to reduce memory usage from threading
+ENV OMP_NUM_THREADS=1
+ENV MKL_NUM_THREADS=1
+ENV OPENBLAS_NUM_THREADS=1
+ENV VECLIB_MAXIMUM_THREADS=1
+ENV NUMEXPR_NUM_THREADS=1
+
+CMD sh -c "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"
