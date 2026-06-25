@@ -2,7 +2,6 @@ import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "../ThemeToggle"
 import { SyncStatusBar } from "./SyncStatusBar"
-import { GoogleLoginButton } from "@/features/auth/GoogleLoginButton"
 
 export function Navbar() {
   return (
@@ -27,8 +26,10 @@ export function Navbar() {
 
         <div className="flex items-center gap-4">
           <ThemeToggle />
-          <div className="hidden sm:inline-flex mt-1">
-             <GoogleLoginButton />
+          <div className="hidden sm:inline-flex">
+            <Link to="/login">
+              <Button variant="outline">Sign In</Button>
+            </Link>
           </div>
           <Link to="/register">
             <Button variant="premium">Get Started</Button>
