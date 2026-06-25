@@ -8,6 +8,7 @@ import { ApplicationReportView } from "@/features/application/ApplicationReportV
 import { Navbar } from "@/components/layout/Navbar";
 import SystemStatusPage from "@/pages/SystemStatusPage";
 import { LoginPage } from "@/pages/LoginPage";
+import { SignUpPage } from "@/pages/SignUpPage";
 import { FeaturesPage } from "@/pages/public/FeaturesPage";
 import { PricingPage } from "@/pages/public/PricingPage";
 import { CaseStudiesPage } from "@/pages/public/CaseStudiesPage";
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/signup",
+    element: <SignUpPage />,
   },
   {
     path: "/register",

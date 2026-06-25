@@ -1,64 +1,64 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/layout/Navbar";
 import { GoogleLoginButton } from "@/features/auth/GoogleLoginButton";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/contexts/AuthContext";
 
-export function LoginPage() {
+export function SignUpPage() {
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
 
-  useEffect(() => {
-    if (location.state?.message) {
-      setSuccessMsg(location.state.message);
-      // Clear the state so it doesn't persist on refresh
-      window.history.replaceState({}, document.title);
-    }
-  }, [location]);
-
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
-    if (!email || !password) {
-      setError("Please enter both email and password.");
+    if (!fullName || !email || !password || !confirmPassword) {
+      setError("Please fill in all fields.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
       return;
     }
 
     setIsLoading(true);
     try {
-      const formData = new URLSearchParams();
-      formData.append("username", email);
-      formData.append("password", password);
-
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"}/api/v1/auth/login`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"}/api/v1/auth/register`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/json",
         },
-        body: formData,
+        body: JSON.stringify({
+          email,
+          password,
+          full_name: fullName,
+          role: "shop_owner" // Default role for standard signup
+        }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.detail || "Incorrect email or password");
+        throw new Error(errorData.detail || "Registration failed. Please try again.");
       }
 
-      const data = await response.json();
-      await login(data.access_token);
-      navigate("/dashboard");
+      // Automatically redirect to login page after successful registration
+      navigate("/login", { state: { message: "Account created successfully! Please sign in." } });
     } catch (err: any) {
-      setError(err.message || "An error occurred during login.");
+      setError(err.message || "An error occurred during registration.");
     } finally {
       setIsLoading(false);
     }
@@ -68,20 +68,25 @@ export function LoginPage() {
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
       <div className="flex-1 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md shadow-2xl border-primary/20">
+        <Card className="w-full max-w-md shadow-2xl border-primary/20 mt-8 mb-8">
           <CardHeader className="text-center space-y-1">
-            <CardTitle className="text-2xl font-bold tracking-tight">Welcome Back</CardTitle>
+            <CardTitle className="text-2xl font-bold tracking-tight">Create an Account</CardTitle>
             <CardDescription>
-              Sign in to your VisionKirana account to continue
+              Join VisionKirana to digitize your store and unlock credit
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {successMsg && (
-              <div className="bg-success/10 text-success p-3 rounded-md mb-4 text-sm text-center">
-                {successMsg}
+            <form onSubmit={handleSignUp} className="space-y-4">
+              <div className="space-y-2 text-left">
+                <Label htmlFor="fullName">Full Name</Label>
+                <Input 
+                  id="fullName" 
+                  placeholder="Rahul Sharma"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required 
+                />
               </div>
-            )}
-            <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-2 text-left">
                 <Label htmlFor="email">Email</Label>
                 <Input 
@@ -94,25 +99,32 @@ export function LoginPage() {
                 />
               </div>
               <div className="space-y-2 text-left">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Password</Label>
-                  <Link to="#" className="text-sm font-medium text-primary hover:underline">
-                    Forgot password?
-                  </Link>
-                </div>
+                <Label htmlFor="password">Password</Label>
                 <Input 
                   id="password" 
                   type="password" 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required 
+                  minLength={6}
+                />
+              </div>
+              <div className="space-y-2 text-left">
+                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Input 
+                  id="confirmPassword" 
+                  type="password" 
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required 
+                  minLength={6}
                 />
               </div>
               
               {error && <p className="text-sm text-destructive text-left">{error}</p>}
               
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Signing in..." : "Sign in"}
+                {isLoading ? "Creating account..." : "Sign up"}
               </Button>
             </form>
 
@@ -133,9 +145,9 @@ export function LoginPage() {
           </CardContent>
           <CardFooter className="flex justify-center border-t p-4 mt-4">
             <p className="text-sm text-muted-foreground">
-              Don't have an account?{" "}
-              <Link to="/signup" className="text-primary hover:underline font-medium">
-                Sign up
+              Already have an account?{" "}
+              <Link to="/login" className="text-primary hover:underline font-medium">
+                Sign in
               </Link>
             </p>
           </CardFooter>

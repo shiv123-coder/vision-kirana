@@ -1,15 +1,17 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 type User = {
   id: string;
-  name: string;
-  role: "admin" | "merchant" | "officer";
+  email: string;
+  full_name: string;
+  role: "admin" | "merchant" | "officer" | "shop_owner";
 } | null;
 
 interface AuthContextType {
   user: User;
   isAuthenticated: boolean;
-  login: (token: string) => void;
+  isLoading: boolean;
+  login: (token: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -17,11 +19,41 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const login = (token: string) => {
-    // In a real app, decode JWT and set user
-    setUser({ id: "1", name: "Test User", role: "merchant" });
+  const fetchUser = async (token: string) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"}/api/v1/auth/me`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
+      if (response.ok) {
+        const userData = await response.json();
+        setUser(userData);
+      } else {
+        logout();
+      }
+    } catch (err) {
+      console.error("Failed to fetch user:", err);
+      logout();
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      fetchUser(token);
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const login = async (token: string) => {
     localStorage.setItem("token", token);
+    await fetchUser(token);
   };
 
   const logout = () => {
@@ -30,7 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
