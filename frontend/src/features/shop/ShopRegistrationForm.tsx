@@ -31,7 +31,7 @@ export function ShopRegistrationForm() {
   const navigate = useNavigate()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState("")
-  const [success, setSuccess] = useState(false)
+
   
   const { user } = useAuth()
   const { isOnline, refreshQueueCount } = useOfflineSync()
@@ -54,7 +54,7 @@ export function ShopRegistrationForm() {
   const onSubmit = async (data: ShopRegistrationValues) => {
     setIsSubmitting(true)
     setError("")
-    setSuccess(false)
+
     
     try {
       const payload = { ...data, owner_id: user?.id }
@@ -67,7 +67,7 @@ export function ShopRegistrationForm() {
         }, payload);
         
         await refreshQueueCount();
-        setSuccess(true)
+
         reset()
         setError("Saved Locally: You are currently offline. This application will be synced automatically when your connection is restored.")
         return
@@ -89,6 +89,7 @@ export function ShopRegistrationForm() {
       const result = await response.json()
       console.log("Registration successful", result)
       alert("Registration Successful!")
+      navigate("/dashboard")
       
     } catch (err: any) {
       setError(err.message)
