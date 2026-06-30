@@ -42,7 +42,7 @@ export function ShopRegistrationForm() {
     reset,
     formState: { errors },
   } = useForm<ShopRegistrationValues>({
-    resolver: zodResolver(shopRegistrationSchema),
+    resolver: zodResolver(shopRegistrationSchema) as any,
     defaultValues: {
       category: "Grocery / FMCG",
       years_in_business: 1,

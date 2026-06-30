@@ -39,7 +39,7 @@ export function ShopEditForm() {
     reset,
     formState: { errors },
   } = useForm<ShopUpdateValues>({
-    resolver: zodResolver(shopUpdateSchema),
+    resolver: zodResolver(shopUpdateSchema) as any,
   })
 
   useEffect(() => {
